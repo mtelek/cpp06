@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:01:16 by mtelek            #+#    #+#             */
-/*   Updated: 2025/07/29 17:22:56 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:22:30 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,31 @@ bool isAllDigits(const std::string& str)
 	return (true);
 }
 
+bool isDouble(const std::string& str)
+{
+	size_t dotPos = str.find('.');
+	size_t ePos = str.find_first_of("eE");
+
+	if (dotPos == std::string::npos || str.find('.', dotPos + 1) != std::string::npos) {
+		return (false);
+	}
+	if (ePos != std::string::npos)
+	{
+		if (ePos < dotPos || ePos == str.length() - 1) {
+			return (false);
+		}
+		if (str[ePos + 1] == '+' || str[ePos + 1] == '-') {
+			if (ePos + 2 >= str.length())
+				return (false);
+		}
+	}
+	return (true);
+}
+
 Type detectType(const std::string& str)
 {
+	if (str.empty())
+		return (INVALID);
 	if (str == "nanf" || str == "inff" || str == "+inff" || str == "-inff") 
 		return (FLOAT);
 	if (str == "nan" || str == "inf" || str == "+inf" || str == "-inf") 
@@ -38,12 +61,9 @@ Type detectType(const std::string& str)
 	size_t f_pos = str.find('f');
 	if (f_pos != std::string::npos && f_pos == str.length()-1)
 		return (FLOAT);
-
-	if (str.find('.') != std::string::npos || 
-		str.find('e') != std::string::npos ||
-		str.find('E') != std::string::npos)
+	if (isDouble(str))
 		return (DOUBLE);
-	if (isAllDigits(str)) 
+	if (isAllDigits(str))
 		return (INT);
 	return (INVALID);
 }
@@ -51,6 +71,7 @@ Type detectType(const std::string& str)
 bool convertToValue(const std::string& str, double& value)
 {
 	Type type = detectType(str);
+	std::cout << "Type: " << type << std::endl;
 	char* endPtr;
     
 	switch(type)

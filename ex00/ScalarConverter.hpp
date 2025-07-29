@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:17:36 by mtelek            #+#    #+#             */
-/*   Updated: 2025/07/29 16:57:42 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:22:48 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ class ScalarConverter
 
 	public:
 		static void convert(const std::string &string);
-		
 };
 
 #endif

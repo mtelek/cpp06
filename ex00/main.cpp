@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:52:13 by mtelek            #+#    #+#             */
-/*   Updated: 2025/07/29 17:07:22 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:16:59 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int main()
 	testConversion("--42");
 
 	// Test non-printable characters
-	testConversion("\01");  // ASCII 1
+	testConversion("\12");  // ASCII 1
 	testConversion("\127"); // ASCII 127
 
 	return (0);
