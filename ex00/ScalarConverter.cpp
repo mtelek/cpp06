@@ -6,13 +6,25 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:01:16 by mtelek            #+#    #+#             */
-/*   Updated: 2025/07/29 15:32:59 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:22:56 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
 enum Type { CHAR, INT, FLOAT, DOUBLE, INVALID };
+
+bool isAllDigits(const std::string& str)
+{
+	if (str.empty() || (str[0] != '-' && !isdigit(str[0])))
+		return (false);
+	for (size_t i = 1; i < str.length(); i++)
+	{
+		if (!isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
 
 Type detectType(const std::string& str)
 {
@@ -31,58 +43,37 @@ Type detectType(const std::string& str)
 		str.find('e') != std::string::npos ||
 		str.find('E') != std::string::npos)
 		return (DOUBLE);
-	return (INT);
+	if (isAllDigits(str)) 
+		return (INT);
+	return (INVALID);
 }
 
 bool convertToValue(const std::string& str, double& value)
 {
 	Type type = detectType(str);
-
+	char* endPtr;
+    
 	switch(type)
 	{
-		case CHAR:
-		{
-			value = static_cast<double>(str[0]);
-			return (true);
-		}
-		case INT:
-		{
-			char* endPtr;
-			long l = strtol(str.c_str(), &endPtr, 10);
-			if (*endPtr || l > INT_MAX || l < INT_MIN)
-				return (true);
-			value = static_cast<double>(l);
-			return (true);
-		}
-		case FLOAT:
-		{
-			char* endPtr;
-			float f = strtof(str.c_str(), &endPtr);
-			if ((*endPtr && *endPtr != 'f') || endPtr == str.c_str())
-				return (false);
-			value = static_cast<double>(f);
-			return (true);
-		}
-		case DOUBLE:
-		{
-			char* endPtr;
-			value = strtod(str.c_str(), &endPtr);
-			if (*endPtr || endPtr == str.c_str())
-				return (false);
-			return (true);
-		}
-		case INVALID:
-			return (false);
+		case CHAR:   value = str[0]; break;
+		case INT:    value = strtol(str.c_str(), &endPtr, 10); break;
+		case FLOAT:  value = strtof(str.c_str(), &endPtr); break;
+		case DOUBLE: value = strtod(str.c_str(), &endPtr); break;
+		case INVALID: return (false);
 	}
-	return (false);
+	return (true);
 }
 
-bool ScalarConverter::convert(const std::string& str) 
+void ScalarConverter::convert(const std::string& str) 
 {
 	double value;
 
 	if (!convertToValue(str, value))
-		return (false);
+	{
+		std::cout << "char: impossible\n" << "int: impossible\n" 
+			<< "float: impossible\n" << "double: impossible\n";
+		return ;
+	}
 
 	// CHAR conversion
 	std::cout << "char: ";
@@ -139,5 +130,4 @@ bool ScalarConverter::convert(const std::string& str)
 			std::cout << std::fixed << std::setprecision(1) << value;
 	}
 	std::cout << std::endl;
-	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: mtelek <mtelek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 11:52:13 by mtelek            #+#    #+#             */
-/*   Updated: 2025/07/29 15:29:27 by mtelek           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:07:22 by mtelek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 void testConversion(const std::string& input)
 {
-	std::cout << "Testing: \"" << input << "\"\n";
+	std::cout << "Testing: " << input << "\n";
 	std::cout << "--------------------------------\n";
-	if (ScalarConverter::convert(input) == true)
-		std::cout << "--------------------------------\n\n";
-	else
-	{
-		std::cout << "Error: Impossible to convert" << std::endl;
-		std::cout << "--------------------------------\n\n";
-		return ;
-	}
+	ScalarConverter::convert(input);
+	std::cout << "--------------------------------\n\n";
 }
 
 
